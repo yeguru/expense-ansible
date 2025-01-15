@@ -1,0 +1,8 @@
+- name: install mysql server for expense project
+  hosts: ansible-mysql
+  become: yes
+  tasks: 
+  - name: to insatll mysql server
+    ansible.builtin.package:
+    name: mysql-server
+    state: installed 
