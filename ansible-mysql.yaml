@@ -6,6 +6,7 @@
     ansible.builtin.pip:
      name: PyMySQL
      executable: pip3.9
+       
 
   - name: to insatll mysql server
     ansible.builtin.package:
@@ -25,7 +26,11 @@
       login_host: ansible-mysql.rajaws82s.shop
     register: mysql_info
     ignore_errors: true
-    
+
   - name: to display the mysql status
     ansible.builtin.debug:
      msg: "{{ mysql_info }}"     
+
+  - name: to setup username and password
+    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root -pExpenseApp@1 "   
+    when: mysql_info.failed is true
