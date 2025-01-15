@@ -1,6 +1,8 @@
 - name: install mysql server for expense project
   hosts: ansible-mysql
   become: yes
+  vars:
+   mysql_root_password: ExpenseApp@1
   tasks: 
   - name: to install mysql libraries
     ansible.builtin.pip:
@@ -22,7 +24,7 @@
   - name: to login to the mysql server with valid username and password
     community.mysql.mysql_info:
       login_user: root
-      login_password: ExpenseApp@1
+      login_password: "{{ sql_root_password }}"
       login_host: ansible-mysql.rajaws82s.shop
     register: mysql_info
     ignore_errors: true
@@ -32,5 +34,5 @@
      msg: "{{ mysql_info }}"     
 
   - name: to setup username and password
-    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root ExpenseApp@1 "   
+    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root {{ sql_root_password }} "   
     when: mysql_info.failed is true
