@@ -10,4 +10,13 @@
     ansible.builtin.service:
      name: mysqld
      state: started
-     enabled: yes  
+     enabled: yes 
+  - name: to login to the mysql server with valid username and password
+    community.mysql.mysql_user:
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: ansible-mysql.rajaws82s.shop
+    register: mysql-info-status
+  - name: to display the mysql status
+    ansible.builtin.debug:
+     msg: "{{ mysql-info-status }}""     
