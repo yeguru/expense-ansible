@@ -19,4 +19,4 @@
     register: mysql-info-status
   - name: to display the mysql status
     ansible.builtin.debug:
-     msg: "{{ mysql-info-status }}""     
+     msg: "{{ mysql-info-status }}"     
