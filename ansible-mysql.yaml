@@ -32,5 +32,5 @@
      msg: "{{ mysql_info }}"     
 
   - name: to setup username and password
-    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root -pExpenseApp@1 "   
+    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root ExpenseApp@1 "   
     when: mysql_info.failed is true
