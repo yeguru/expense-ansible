@@ -12,7 +12,7 @@
      state: started
      enabled: yes 
   - name: to login to the mysql server with valid username and password
-    community.mysql.mysql_user:
+    community.mysql.mysql_info:
       login_user: root
       login_password: ExpenseApp@1
       login_host: ansible-mysql.rajaws82s.shop
