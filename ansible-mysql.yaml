@@ -23,8 +23,8 @@
       login_user: root
       login_password: ExpenseApp@1
       login_host: ansible-mysql.rajaws82s.shop
-    register: mysql-info
-    
+    register: 'mysql-info'
+
   - name: to display the mysql status
     ansible.builtin.debug:
      msg: "{{ mysql-info }}"     
