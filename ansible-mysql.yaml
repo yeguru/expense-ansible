@@ -34,5 +34,5 @@
      msg: "{{ mysql_info }}"     
 
   - name: to setup username and password
-    ansible.builtin.command: " mysql -h ansible-mysql.rajaws82s.shop -u root {{ sql_root_password }} "   
+    ansible.builtin.command: " mysql_secure_installation --set-root-pass {{ sql_root_password }} "   
     when: mysql_info.failed is true
