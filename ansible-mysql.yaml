@@ -24,7 +24,7 @@
   - name: to login to the mysql server with valid username and password
     community.mysql.mysql_info:
       login_user: root
-      login_password: "{{ sql_root_password }}"
+      login_password: "{{ mysql_root_password }}"
       login_host: ansible-mysql.rajaws82s.shop
     register: mysql_info
     ignore_errors: true
@@ -34,5 +34,5 @@
      msg: "{{ mysql_info }}"     
 
   - name: to setup username and password
-    ansible.builtin.command: " mysql_secure_installation --set-root-pass {{ sql_root_password }} "   
+    ansible.builtin.command: " mysql_secure_installation --set-root-pass {{ mysql_root_password }} "   
     when: mysql_info.failed is true
