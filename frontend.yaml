@@ -1,5 +1,5 @@
 - name: To configure the frontend in the expense project
-  hosts: ansible-frontend
+  hosts: frontend
   become: yes
   tasks:
   - name: install nginx server

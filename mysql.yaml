@@ -1,5 +1,5 @@
 - name: install mysql server for expense project
-  hosts: ansible-mysql
+  hosts: mysql
   become: yes
   vars:
    mysql_root_password: ExpenseApp@1
@@ -28,7 +28,7 @@
     community.mysql.mysql_info:
       login_user: root
       login_password: "{{ mysql_root_password }}"
-      login_host: ansible-mysql.rajaws82s.shop
+      login_host: mysql.rajaws82s.shop
     register: mysql_info
     ignore_errors: true
 
