@@ -1,64 +1,70 @@
-- name: we are setup backend server
+- name: configure backend server
   hosts: backend
   become: yes
   tasks:
-  - name: disable present nodejs
+  - name: disable current nodejs
     ansible.builtin.command: dnf module disable nodejs -y
-  - name: enable the nodejs version 20
+
+  - name: enable nodejs 20
     ansible.builtin.command: dnf module enable nodejs:20 -y
-  - name: install nodejs and mysql server
+
+  - name: install nodejs
     ansible.builtin.package:
-     name: "{{ item }}"
-     state: present
+      name: "{{ item }}"
+      state: present
     loop:
     - nodejs
     - mysql
-  - name: add expense user
+
+  - name: create expense user
     ansible.builtin.user:
-     name: expense
-  - name: create a app directory
+      name: expense
+
+  - name: create app directory
     ansible.builtin.file:
-     name: /app
-     state: directory
-  - name: Download the application code to created app directory
+      path: /app
+      state: directory
+  
+  - name: download backend code
     ansible.builtin.get_url:
-     url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
-     dest: /tmp/backend.zip
-  - name: unzip the downloaded expense backend file in to the app folder
+      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+      dest: /tmp/backend.zip
+
+  - name: unzip backend code
     ansible.builtin.unarchive:
-     src: /tmp/backend.zip
-     dest: /app
-     remote_src: yes
-  - name: insatll dependencies 
+      src: /tmp/backend.zip
+      dest: /app
+      remote_src: yes
+  
+  - name: Install dependencies
     community.general.npm:
-     path: /app
-  - name: copy the backend service file to the mentioned path in the destination
+      path: /app
+
+  - name: copy backend service
     ansible.builtin.copy:
-     src: backend.service
-     dest: /etc/systemd/system/backend.service
-  - name: installing the required libs to phython as PyMySQL and cryptography 
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+
+  - name: install python libs
     ansible.builtin.pip:
-     name: "{{ item }}"
-     executable: pip3.9
+      name: "{{ item }}"
+      executable: pip3.9
     loop:
-    - PyMySQL
     - cryptography
-  - name: import my sql data
+    - PyMySQL
+
+  - name: import mysql data
     community.mysql.mysql_db:
-     state: import
-     name: all
-     login_user: root
-     login_password: ExpenseApp@1
-     login_host: mysql.rajaws82s.shop
-     target: /app/schema/backend.sql
+      state: import
+      name: all
+      login_user: root
+      login_password: ExpenseApp@1
+      login_host: backend.rajaws82s.shop
+      target: /app/schema/backend.sql
 
-  - name: reloading the daemon and restarting the service
+  - name: daemon reload and restart service
     ansible.builtin.systemd_service:
-     enabled: true
-     state: restarted
-     daemon_reload: true
-     name: backend
-
-
-
-    
+      enabled: true
+      state: restarted
+      daemon_reload: true
+      name: backend
